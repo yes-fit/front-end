@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build --outDir dist",
     "lint": "bunx biome lint --write && bunx tsc --noEmit",
     "format": "bunx biome format --write",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dependency_installation": "npm install"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
