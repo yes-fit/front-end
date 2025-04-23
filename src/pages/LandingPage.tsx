@@ -36,7 +36,7 @@ export function LandingPage() {
             <div className="flex flex-col justify-end gap-8">
               <div className="flex items-center justify-center px-6 py-12 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
                 <img
-                  src="/images/481376266_18483789931022422_3791355207825246788_n.jpeg" // Updated path
+                  src="/images/481376266_18483789931022422_3791355207825246788_n.jpeg"
                   alt="Union Gym"
                   className="object-cover w-full h-auto rounded-lg shadow-2xl"
                   style={{ maxHeight: "350px" }}
