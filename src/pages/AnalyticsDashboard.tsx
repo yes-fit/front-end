@@ -45,7 +45,7 @@ export function AnalyticsDashboard() {
   useEffect(() => {
     setLoading(true);
 
-    // In a real app, we would fetch this data from an API with the selected timeframe
+    
     calculateMetrics(timeFrame);
 
     setLoading(false);

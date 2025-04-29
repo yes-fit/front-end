@@ -35,7 +35,7 @@ export function AuditLogsPage() {
 
   const fetchLogs = () => {
     setLoading(true);
-    // In a real app, we would pass the filter to the API
+    
     const response = getAuditLogs(currentPage, 20);
     setLogs(response);
     setLoading(false);

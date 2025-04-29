@@ -1,374 +1,528 @@
 {
-    "info": {
-        "_postman_id": "cb933f4c-f9cd-4c98-ae26-ad44fae400a4",
-        "name": "GymTracker",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "_exporter_id": "37791703"
-    },
-    "item": [
-        {
-            "name": "Registration",
-            "item": [
-                {
-                    "name": "RegisterRequest",
-                    "request": {
-                        "auth": {
-                            "type": "noauth"
-                        },
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\r\n    \"username\": \"cepahas06\",\r\n    \"fullName\": \"Oshole Cephas MAry\",\r\n    \"email\": \"cephasmary@gmail.com\",\r\n    \"password\": \"cepahas06!!\",\r\n    \"dob\": \"2005-04-08\",\r\n    \"gender\": \"male\"\r\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "https://gym-application-gsim.onrender.com/api/v1/register",
-                            "protocol": "https",
-                            "host": [
-                                "gym-application-gsim",
-                                "onrender",
-                                "com"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "register"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "RegisterResponse",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"username\": \"Mayowa27\",\n  \"fullName\": \"Salami Abdulasbit Mayowa\",\n  \"email\": \"salamiabdulasbit123@gmail.com\",\n  \"password\": \"Mayowa123!\",\n  \"dob\": \"2005-09-10\",\n  \"gender\": \"male\"\n}",
-                                    "options": {
-                                        "raw": {
-                                            "language": "json"
-                                        }
-                                    }
-                                },
-                                "url": {
-                                    "raw": "localhost:8083/api/v1/register",
-                                    "host": [
-                                        "localhost"
-                                    ],
-                                    "port": "8083",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "register"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "X-Content-Type-Options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "X-XSS-Protection",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "Cache-Control",
-                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
-                                },
-                                {
-                                    "key": "Pragma",
-                                    "value": "no-cache"
-                                },
-                                {
-                                    "key": "Expires",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "X-Frame-Options",
-                                    "value": "SAMEORIGIN"
-                                },
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                },
-                                {
-                                    "key": "Transfer-Encoding",
-                                    "value": "chunked"
-                                },
-                                {
-                                    "key": "Date",
-                                    "value": "Fri, 18 Apr 2025 14:10:24 GMT"
-                                },
-                                {
-                                    "key": "Keep-Alive",
-                                    "value": "timeout=60"
-                                },
-                                {
-                                    "key": "Connection",
-                                    "value": "keep-alive"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"responseCode\": \"00\",\n    \"responseMessage\": \"Registration successful\"\n}"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Login",
-            "item": [
-                {
-                    "name": "LoginRequest",
-                    "request": {
-                        "auth": {
-                            "type": "noauth"
-                        },
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\r\n    \"email\": \"cephasmary@gmail.com\",\r\n    \"password\": \"cepahas06!!\"\r\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "https://gym-application-gsim.onrender.com/api/v1/login",
-                            "protocol": "https",
-                            "host": [
-                                "gym-application-gsim",
-                                "onrender",
-                                "com"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "login"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "LoginResponse",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\r\n    \"email\": \"salamiabdulbasit123@gmail.com\",\r\n    \"password\": \"Mayowa123!!\"\r\n}",
-                                    "options": {
-                                        "raw": {
-                                            "language": "json"
-                                        }
-                                    }
-                                },
-                                "url": {
-                                    "raw": "localhost:8083/api/v1/login",
-                                    "host": [
-                                        "localhost"
-                                    ],
-                                    "port": "8083",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "login"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "X-Content-Type-Options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "X-XSS-Protection",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "Cache-Control",
-                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
-                                },
-                                {
-                                    "key": "Pragma",
-                                    "value": "no-cache"
-                                },
-                                {
-                                    "key": "Expires",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "X-Frame-Options",
-                                    "value": "SAMEORIGIN"
-                                },
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                },
-                                {
-                                    "key": "Transfer-Encoding",
-                                    "value": "chunked"
-                                },
-                                {
-                                    "key": "Date",
-                                    "value": "Tue, 22 Apr 2025 07:24:14 GMT"
-                                },
-                                {
-                                    "key": "Keep-Alive",
-                                    "value": "timeout=60"
-                                },
-                                {
-                                    "key": "Connection",
-                                    "value": "keep-alive"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"loginCode\": \"00\",\n    \"loginMessage\": \"Login Successful\"\n}"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "BookSession",
-            "item": [
-                {
-                    "name": "SessionRequest",
-                    "request": {
-                        "auth": {
-                            "type": "bearer",
-                            "bearer": [
-                                {
-                                    "key": "token",
-                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZXBoYXNtYXJ5QGdtYWlsLmNvbSIsImlhdCI6MTc0NTUwNTIyNywiZXhwIjoxNzQ1NTA2MjI3fQ.WIZbPeBuGA--A3U1lrocxGC8OknRhaUfdYoVFJzAcfA",
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\r\n    \"startTime\": \"2025-04-25T21:30:00\"\r\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "https://gym-application-gsim.onrender.com/api/v1/bookSession",
-                            "protocol": "https",
-                            "host": [
-                                "gym-application-gsim",
-                                "onrender",
-                                "com"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "bookSession"
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "SessionResponse",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\r\n    \"startTime\": \"2025-04-25T20:30:00\"\r\n}",
-                                    "options": {
-                                        "raw": {
-                                            "language": "json"
-                                        }
-                                    }
-                                },
-                                "url": {
-                                    "raw": "localhost:8083/api/v1/bookSession",
-                                    "host": [
-                                        "localhost"
-                                    ],
-                                    "port": "8083",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "bookSession"
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": "json",
-                            "header": [
-                                {
-                                    "key": "X-Content-Type-Options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "X-XSS-Protection",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "Cache-Control",
-                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
-                                },
-                                {
-                                    "key": "Pragma",
-                                    "value": "no-cache"
-                                },
-                                {
-                                    "key": "Expires",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "X-Frame-Options",
-                                    "value": "SAMEORIGIN"
-                                },
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                },
-                                {
-                                    "key": "Transfer-Encoding",
-                                    "value": "chunked"
-                                },
-                                {
-                                    "key": "Date",
-                                    "value": "Thu, 24 Apr 2025 11:37:29 GMT"
-                                },
-                                {
-                                    "key": "Keep-Alive",
-                                    "value": "timeout=60"
-                                },
-                                {
-                                    "key": "Connection",
-                                    "value": "keep-alive"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"responseCode\": \"03\",\n    \"responseMessage\": \"maximum capacity filled\"\n}"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+	"info": {
+		"_postman_id": "cb933f4c-f9cd-4c98-ae26-ad44fae400a4",
+		"name": "GymTracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37791703"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"item": [
+				{
+					"name": "RegisterRequest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Kenneth29\",\r\n    \"fullName\": \"Nwokeabia Kenneth \",\r\n    \"email\": \"nwokeabiakenneth@gmail.com\",\r\n    \"password\": \"Farouq23!!\",\r\n    \"dob\": \"29-04-2005\",\r\n    \"gender\": \"male\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://gym-application-kbx1.onrender.com/api/v1/register",
+							"protocol": "https",
+							"host": [
+								"gym-application-kbx1",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "RegisterResponse",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \" username\": \"Mayowa07\",\r\n    \"fullName\": \"Salami Abdulbasit Mayowa\",\r\n    \"email\": \"salamiabdulbasit123@gmail.com\",\r\n    \"password\": \"Mayowa123!!\",\r\n    \"dob\": \"09-09-2005\",\r\n    \"gender\": \"male\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/v1/register",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 18 Apr 2025 14:10:24 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"00\",\n    \"responseMessage\": \"Registration successful\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": ":Login",
+			"item": [
+				{
+					"name": "LoginRequest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nwokeabiakenneth@gmail.com\",\r\n    \"password\": \"Farouq23!!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://gym-application-kbx1.onrender.com/api/v1/login",
+							"protocol": "https",
+							"host": [
+								"gym-application-kbx1",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "LoginResponse",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"salamiabdulbasit123@gmail.com\",\r\n    \"password\": \"Mayowa123!!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/v1/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Apr 2025 07:24:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"loginCode\": \"00\",\n    \"loginMessage\": \"Login Successful\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "BookSession",
+			"item": [
+				{
+					"name": "SessionRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJud29rZWFiaWFrZW5uZXRoQGdtYWlsLmNvbSIsImlhdCI6MTc0NTkzMTUyMCwiZXhwIjoxNzQ1OTMyNTIwfQ.26XeXk-G6YvzekmKTTXKMEdf7DTt4hgNA3d310sAjgQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startTime\": \"2025-04-30T21:30:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://gym-application-kbx1.onrender.com/api/v1/bookSession",
+							"protocol": "https",
+							"host": [
+								"gym-application-kbx1",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bookSession"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "SessionResponse",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"startTime\": \"2025-04-25T20:30:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/v1/bookSession",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"bookSession"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 24 Apr 2025 11:37:29 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"03\",\n    \"responseMessage\": \"maximum capacity filled\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ViewSession",
+			"item": [
+				{
+					"name": "View",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJud29rZWFiaWFrZW5uZXRoQGdtYWlsLmNvbSIsImlhdCI6MTc0NTkzMTUyMCwiZXhwIjoxNzQ1OTMyNTIwfQ.26XeXk-G6YvzekmKTTXKMEdf7DTt4hgNA3d310sAjgQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://gym-application-kbx1.onrender.com/api/v1/view",
+							"protocol": "https",
+							"host": [
+								"gym-application-kbx1",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"view"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "ViewResponse",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://gym-application-kbx1.onrender.com/api/v1/view",
+									"protocol": "https",
+									"host": [
+										"gym-application-kbx1",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"view"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 29 Apr 2025 12:59:54 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "expires",
+									"value": "0"
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "rndr-id",
+									"value": "bdf957a0-97df-4ee1"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=31536000 ; includeSubDomains"
+								},
+								{
+									"key": "vary",
+									"value": "Origin"
+								},
+								{
+									"key": "vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "0"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "937efaa80b1f43eb-EWR"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"00\",\n    \"responseMessage\": \"Successful\",\n    \"bookedSessions\": [\n        {\n            \"id\": \"2270e1b8-a72f-44de-8841-1c2f987817a1\",\n            \"userId\": null,\n            \"startTime\": \"2025-04-29T21:30:00\",\n            \"endTime\": \"2025-04-29T22:30:00\",\n            \"active\": false,\n            \"utilize\": false\n        },\n        {\n            \"id\": \"72911887-ebc8-4ff5-bc73-fd730d1b6f21\",\n            \"userId\": null,\n            \"startTime\": \"2025-04-30T21:30:00\",\n            \"endTime\": \"2025-04-30T22:30:00\",\n            \"active\": false,\n            \"utilize\": false\n        },\n        {\n            \"id\": \"ab227681-30cf-4bd4-9cf0-483ba95cd116\",\n            \"userId\": null,\n            \"startTime\": \"2025-04-30T21:30:00\",\n            \"endTime\": \"2025-04-30T22:30:00\",\n            \"active\": false,\n            \"utilize\": false\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		}
+	]
 }

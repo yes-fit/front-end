@@ -24,7 +24,7 @@ export function MyBookingsPage() {
   }, [user]);
 
   const handleCancelBooking = (bookingId: string) => {
-    // In a real app, this would call an API to cancel the booking
+    
     toast.success("Booking cancelled successfully");
 
     // Update local state to reflect the cancellation
