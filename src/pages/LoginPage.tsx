@@ -11,6 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthContext";
@@ -18,16 +19,28 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 // Define form schema
 const formSchema = z.object({
-  email: z.string().email("Must be a valid enterprise email").min(5, "Email is required"),
+  email: z.string().email("Must be a valid email").min(5, "Email is required"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+const registerFormSchema = z.object({
+  username: z.string().min(3, "Username is required"),
+  fullName: z.string().min(3, "Full name is required"),
+  email: z.string().email("Must be a valid email").min(5, "Email is required"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  dob: z.string().regex(/^\d{2}-\d{2}-\d{4}$/, "Date of birth must be in DD-MM-YYYY format"),
+  gender: z.enum(["male", "female", "other"], { required_error: "Gender is required" }),
+});
+
 type FormValues = z.infer<typeof formSchema>;
+type RegisterFormValues = z.infer<typeof registerFormSchema>;
 
 export function LoginPage() {
   const { login, user, isLoading } = useAuth();
   const [authError, setAuthError] = useState<string | null>(null);
+  const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
+  const [registrationStatus, setRegistrationStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   // Initialize the form
   const form = useForm<FormValues>({
@@ -39,6 +52,17 @@ export function LoginPage() {
   });
 
   // If already logged in, redirect to appropriate dashboard
+  const registerForm = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: {
+      username: "",
+      fullName: "",
+      email: "",
+      password: "",
+      dob: "",
+      gender: undefined,
+    },
+  });
   if (user) {
     return <Navigate to={user.role === "admin" ? "/admin/dashboard" : "/dashboard"} />;
   }
