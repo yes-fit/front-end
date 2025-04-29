@@ -1,0 +1,374 @@
+{
+    "info": {
+        "_postman_id": "cb933f4c-f9cd-4c98-ae26-ad44fae400a4",
+        "name": "GymTracker",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "37791703"
+    },
+    "item": [
+        {
+            "name": "Registration",
+            "item": [
+                {
+                    "name": "RegisterRequest",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\": \"cepahas06\",\r\n    \"fullName\": \"Oshole Cephas MAry\",\r\n    \"email\": \"cephasmary@gmail.com\",\r\n    \"password\": \"cepahas06!!\",\r\n    \"dob\": \"2005-04-08\",\r\n    \"gender\": \"male\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "https://gym-application-gsim.onrender.com/api/v1/register",
+                            "protocol": "https",
+                            "host": [
+                                "gym-application-gsim",
+                                "onrender",
+                                "com"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "RegisterResponse",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"username\": \"Mayowa27\",\n  \"fullName\": \"Salami Abdulasbit Mayowa\",\n  \"email\": \"salamiabdulasbit123@gmail.com\",\n  \"password\": \"Mayowa123!\",\n  \"dob\": \"2005-09-10\",\n  \"gender\": \"male\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "localhost:8083/api/v1/register",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8083",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "register"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "X-XSS-Protection",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "Cache-Control",
+                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
+                                },
+                                {
+                                    "key": "Pragma",
+                                    "value": "no-cache"
+                                },
+                                {
+                                    "key": "Expires",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Transfer-Encoding",
+                                    "value": "chunked"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Fri, 18 Apr 2025 14:10:24 GMT"
+                                },
+                                {
+                                    "key": "Keep-Alive",
+                                    "value": "timeout=60"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"responseCode\": \"00\",\n    \"responseMessage\": \"Registration successful\"\n}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Login",
+            "item": [
+                {
+                    "name": "LoginRequest",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"email\": \"cephasmary@gmail.com\",\r\n    \"password\": \"cepahas06!!\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "https://gym-application-gsim.onrender.com/api/v1/login",
+                            "protocol": "https",
+                            "host": [
+                                "gym-application-gsim",
+                                "onrender",
+                                "com"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "LoginResponse",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"email\": \"salamiabdulbasit123@gmail.com\",\r\n    \"password\": \"Mayowa123!!\"\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "localhost:8083/api/v1/login",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8083",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "login"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "X-XSS-Protection",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "Cache-Control",
+                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
+                                },
+                                {
+                                    "key": "Pragma",
+                                    "value": "no-cache"
+                                },
+                                {
+                                    "key": "Expires",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Transfer-Encoding",
+                                    "value": "chunked"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Tue, 22 Apr 2025 07:24:14 GMT"
+                                },
+                                {
+                                    "key": "Keep-Alive",
+                                    "value": "timeout=60"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"loginCode\": \"00\",\n    \"loginMessage\": \"Login Successful\"\n}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "BookSession",
+            "item": [
+                {
+                    "name": "SessionRequest",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZXBoYXNtYXJ5QGdtYWlsLmNvbSIsImlhdCI6MTc0NTUwNTIyNywiZXhwIjoxNzQ1NTA2MjI3fQ.WIZbPeBuGA--A3U1lrocxGC8OknRhaUfdYoVFJzAcfA",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"startTime\": \"2025-04-25T21:30:00\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "https://gym-application-gsim.onrender.com/api/v1/bookSession",
+                            "protocol": "https",
+                            "host": [
+                                "gym-application-gsim",
+                                "onrender",
+                                "com"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "bookSession"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "SessionResponse",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"startTime\": \"2025-04-25T20:30:00\"\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "localhost:8083/api/v1/bookSession",
+                                    "host": [
+                                        "localhost"
+                                    ],
+                                    "port": "8083",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "bookSession"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "X-XSS-Protection",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "Cache-Control",
+                                    "value": "no-cache, no-store, max-age=0, must-revalidate"
+                                },
+                                {
+                                    "key": "Pragma",
+                                    "value": "no-cache"
+                                },
+                                {
+                                    "key": "Expires",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Transfer-Encoding",
+                                    "value": "chunked"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Thu, 24 Apr 2025 11:37:29 GMT"
+                                },
+                                {
+                                    "key": "Keep-Alive",
+                                    "value": "timeout=60"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"responseCode\": \"03\",\n    \"responseMessage\": \"maximum capacity filled\"\n}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
