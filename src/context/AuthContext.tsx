@@ -1,12 +1,15 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from "react";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import { BookingSlot } from "@/lib/api/mockData"; // Ensure this path is correct
 
+// Define User type including token
 type User = {
   id: string;
   email: string;
   name: string;
   role: "user" | "admin";
+  token?: string; // Optional token property
 };
 
 type RegisterData = {
@@ -14,163 +17,145 @@ type RegisterData = {
   fullName: string;
   email: string;
   password: string;
-  dob: string; 
+  dob: string;
+  gender: "male" | "female" | "other";
 };
 
 type AuthContextType = {
   user: User | null;
-  token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (data: RegisterData) => Promise<void>;
+  getUserBookings: () => Promise<void>; // Ensure this matches the implementation
   isLoading: boolean;
   authError: string | null;
+  bookings: BookingSlot[]; // State for bookings
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// Create the context
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: PropsWithChildren<{}>) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [bookings, setBookings] = useState<BookingSlot[]>([]); // State for bookings
 
-  // Check if user is logged in on initial load
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = () => {
       const storedToken = localStorage.getItem("token");
-
       if (storedToken) {
         try {
-          
           const decoded = jwtDecode<User & { exp: number }>(storedToken);
-
-          // Check if token is expired
           const currentTime = Date.now() / 1000;
-          if (decoded.exp < currentTime) {
-            throw new Error("Token expired");
-          }
+          if (decoded.exp < currentTime) throw new Error("Token expired");
 
-          setUser({
-            id: decoded.id,
-            email: decoded.email,
-            name: decoded.name,
-            role: decoded.role,
-          });
-          setToken(storedToken);
+          setUser({ ...decoded, token: storedToken }); // Store token in user object
         } catch (error) {
           console.error("Auth error:", error);
           localStorage.removeItem("token");
           setUser(null);
-          setToken(null);
         }
       }
-
       setIsLoading(false);
     };
 
     checkAuth();
   }, []);
 
-  // Login function
   const login = async (email: string, password: string) => {
     setIsLoading(true);
+    setAuthError(null);
 
-    setAuthError(null); // Clear previous errors
     try {
-      const response = await fetch("https://gym-application-gsim.onrender.com/api/v1/login", {
+      const response = await fetch("https://gym-application2.onrender.com/api/v1/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Login failed");
 
-      if (!response.ok) {
-        throw new Error(data.loginMessage || "Login failed");
-      }
-
-      
-      
-      const receivedToken = data.token; 
-      const decoded: any = jwtDecode(receivedToken); 
-
-      const loggedInUser: User = {
-        id: decoded.id, 
-        email,
-        name: decoded.name, 
-        role: decoded.role, 
-      };
+      const receivedToken = data.token;
+      const decoded: User = jwtDecode(receivedToken);
 
       localStorage.setItem("token", receivedToken);
-      setUser(loggedInUser);
-      setToken(receivedToken);
-
-      toast.success(data.loginMessage || "Login successful!");
-
+      setUser({ ...decoded, token: receivedToken }); // Store token in user object
+      toast.success("Login successful!");
     } catch (error: any) {
       console.error("Login error:", error);
-      setAuthError(error.message || "An unexpected error occurred during login."); // Use state to show error in UI
+      setAuthError(error.message || "An unexpected error occurred during login.");
       toast.error(error.message || "Login failed. Please try again.");
-      throw error; // Re-throw to be caught by the component
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Registration function
   const register = async (data: RegisterData) => {
     setIsLoading(true);
+    setAuthError(null);
 
-    setAuthError(null); // Clear previous errors
     try {
-      const response = await fetch("https://gym-application-gsim.onrender.com/api/v1/register", {
+      const response = await fetch("https://gym-application2.onrender.com/api/v1/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
       const responseData = await response.json();
-
-      if (!response.ok) {
+      if (!response.ok || responseData.responseCode !== "00") {
         throw new Error(responseData.responseMessage || "Registration failed");
       }
 
-      toast.success(responseData.responseMessage || "Registration successful!"); 
-    
-      // await login(data.email, data.password);
-
+      toast.success(responseData.responseMessage || "Registration successful!");
     } catch (error: any) {
       console.error("Registration error:", error);
-      setAuthError(error.message || "An unexpected error occurred during registration."); // Use state to show error in UI
+      setAuthError(error.message || "An unexpected error occurred during registration.");
       toast.error(error.message || "Registration failed. Please try again.");
-      throw error; // Re-throw to be caught by the component
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Logout function
+  const getUserBookings = async () => {
+    setIsLoading(true);
+    setAuthError(null);
+
+    try {
+      const response = await fetch(`https://gym-application2.onrender.com/api/v1/bookings?userId=${user?.id}`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Failed to fetch bookings");
+
+      setBookings(data.bookings); // Assuming the response format contains bookings
+    } catch (error: any) {
+      console.error("Fetching bookings error:", error);
+      setAuthError(error.message || "An unexpected error occurred while fetching bookings.");
+      toast.error(error.message || "Failed to fetch bookings.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    setToken(null);
     setAuthError(null);
+    setBookings([]); // Clear bookings on logout
     toast.success("Logged out successfully");
-    // Navigation will be handled by the component that calls logout
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, register, isLoading, authError }}>
+    <AuthContext.Provider value={{ user, login, logout, register, getUserBookings, isLoading, authError, bookings }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
+// Export the custom hook
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {

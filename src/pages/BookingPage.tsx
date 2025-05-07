@@ -1,18 +1,26 @@
 import { useState } from "react";
-import { addDays, format, parse } from "date-fns";
+import { addDays, format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { type BookingSlot, bookSlot, canBookSlot, getAvailableSlots } from "@/lib/api/mockData";
 import { toast } from "sonner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-// Fix the bookingStatus type to avoid the TypeScript error
+// Define BookingStatus type
 type BookingStatus = {
   success?: boolean;
   message?: string;
 };
+
+// Define Slot type
+interface BookingSlot {
+  id: string;
+  startTime: string;
+  endTime: string;
+  availableSpots: number;
+  totalSpots: number;
+}
 
 export function BookingPage() {
   const { user } = useAuth();
@@ -23,16 +31,25 @@ export function BookingPage() {
   const [bookingStatus, setBookingStatus] = useState<BookingStatus | null>(null);
 
   // Load available slots when date changes
-  const handleDateChange = (date: Date | undefined) => {
+  const handleDateChange = async (date: Date | undefined) => {
     setSelectedDate(date);
     setSelectedSlot(null);
     setBookingStatus(null);
 
     if (date) {
       const dateString = format(date, "yyyy-MM-dd");
-      // Get available slots for the selected date
-      const slots = getAvailableSlots(dateString, dateString);
-      setAvailableSlots(slots);
+      try {
+        const response = await fetch(`https://gym-application2.onrender.com/api/v1/view`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        setAvailableSlots(data.bookedSessions.filter((slot: BookingSlot) => slot.startTime.startsWith(dateString)));
+      } catch (error) {
+        console.error("Error fetching available slots:", error);
+      }
     } else {
       setAvailableSlots([]);
     }
@@ -41,16 +58,6 @@ export function BookingPage() {
   const handleSlotSelect = (slot: BookingSlot) => {
     setSelectedSlot(slot);
     setBookingStatus(null);
-
-    // Check if user can book this slot based on rules
-    if (user && selectedDate) {
-      const dateString = format(selectedDate, "yyyy-MM-dd");
-      const bookingCheck = canBookSlot(user.id, slot.id, dateString);
-
-      if (!bookingCheck.canBook) {
-        setBookingStatus({ success: false, message: bookingCheck.reason });
-      }
-    }
   };
 
   const handleBookSlot = async () => {
@@ -60,23 +67,25 @@ export function BookingPage() {
     setBookingStatus(null);
 
     try {
-      // Book the slot
-      const result = bookSlot(user.id, selectedSlot.id);
+      const response = await fetch(`https://gym-application2.onrender.com/api/v1/bookSession`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`, // Use the token here
+        },
+        body: JSON.stringify({ startTime: selectedSlot.startTime }),
+      });
+      const result = await response.json();
 
-      if (result.success) {
+      if (result.responseCode === "00") {
         toast.success("Session booked successfully!");
         setBookingStatus({ success: true, message: "Booking confirmed! See you at the gym." });
-
         // Refresh available slots
-        if (selectedDate) {
-          const dateString = format(selectedDate, "yyyy-MM-dd");
-          const slots = getAvailableSlots(dateString, dateString);
-          setAvailableSlots(slots);
-          setSelectedSlot(null);
-        }
+        await handleDateChange(selectedDate);
+        setSelectedSlot(null);
       } else {
         toast.error("Booking failed");
-        setBookingStatus({ success: false, message: result.message });
+        setBookingStatus({ success: false, message: result.responseMessage });
       }
     } catch (error) {
       console.error("Booking error:", error);
@@ -87,9 +96,10 @@ export function BookingPage() {
     }
   };
 
-  const formatTimeSlot = (hour: number) => {
-    const hourFormatted = hour % 12 || 12;
-    const ampm = hour >= 12 ? "PM" : "AM";
+  const formatTimeSlot = (hour: string) => {
+    const time = new Date(hour);
+    const hourFormatted = time.getHours() % 12 || 12;
+    const ampm = time.getHours() >= 12 ? "PM" : "AM";
     return `${hourFormatted}:00 ${ampm} - ${hourFormatted}:59 ${ampm}`;
   };
 
@@ -100,7 +110,6 @@ export function BookingPage() {
   return (
     <div className="container py-6">
       <h1 className="text-3xl font-bold mb-6">Book a Gym Session</h1>
-
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
@@ -144,8 +153,7 @@ export function BookingPage() {
                       onClick={() => handleSlotSelect(slot)}
                       className="justify-between"
                     >
-                      <span>{formatTimeSlot(slot.hour)}</span>
-                      <span className="text-xs ml-2">({slot.availableSpots}/{slot.totalSpots})</span>
+                      <span>{formatTimeSlot(slot.startTime)}</span>
                     </Button>
                   ))}
                 </div>
