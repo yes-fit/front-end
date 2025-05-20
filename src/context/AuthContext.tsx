@@ -1,15 +1,14 @@
 import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from "react";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
-import { BookingSlot } from "@/lib/api/mockData"; // Ensure this path is correct
 
 // Define User type including token
 type User = {
   id: string;
   email: string;
-  name: string;
+  name: string; 
   role: "user" | "admin";
-  token?: string; // Optional token property
+  token?: string; 
 };
 
 type RegisterData = {
@@ -21,15 +20,29 @@ type RegisterData = {
   gender: "male" | "female" | "other";
 };
 
+type SessionData = {
+  startTime: string;
+};
+
+type EditSessionData = {
+  sessionId: string;
+  newTime: string;
+};
+
 type AuthContextType = {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (data: RegisterData) => Promise<void>;
-  getUserBookings: () => Promise<void>; // Ensure this matches the implementation
+  bookSession: (data: SessionData) => Promise<void>;
+  editSession: (data: EditSessionData) => Promise<void>;
+  deleteSession: (sessionId: string) => Promise<void>;
+  viewSessions: () => Promise<void>;
+  getAvailableSessions: (date: string) => Promise<void>;
+  reportUsage: (startTime: string) => Promise<void>;
   isLoading: boolean;
   authError: string | null;
-  bookings: BookingSlot[]; // State for bookings
+  bookings: any[]; 
 };
 
 // Create the context
@@ -39,7 +52,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
-  const [bookings, setBookings] = useState<BookingSlot[]>([]); // State for bookings
+  const [bookings, setBookings] = useState<any[]>([]); 
 
   useEffect(() => {
     const checkAuth = () => {
@@ -50,7 +63,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
           const currentTime = Date.now() / 1000;
           if (decoded.exp < currentTime) throw new Error("Token expired");
 
-          setUser({ ...decoded, token: storedToken }); // Store token in user object
+          setUser({ ...decoded, token: storedToken }); 
         } catch (error) {
           console.error("Auth error:", error);
           localStorage.removeItem("token");
@@ -68,7 +81,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const response = await fetch("https://gym-application2.onrender.com/api/v1/login", {
+      const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -78,10 +91,16 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
       if (!response.ok) throw new Error(data.message || "Login failed");
 
       const receivedToken = data.token;
-      const decoded: User = jwtDecode(receivedToken);
+      const decoded: User = { 
+        id: data.id, 
+        email: data.email, 
+        name: data.fullName, 
+        role: data.role,
+        token: receivedToken
+      };
 
-      localStorage.setItem("token", receivedToken);
-      setUser({ ...decoded, token: receivedToken }); // Store token in user object
+      setUser(decoded); 
+      localStorage.setItem("token", receivedToken); 
       toast.success("Login successful!");
     } catch (error: any) {
       console.error("Login error:", error);
@@ -97,7 +116,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const response = await fetch("https://gym-application2.onrender.com/api/v1/register", {
+      const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -118,23 +137,145 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     }
   };
 
-  const getUserBookings = async () => {
+  const apiFetch = async (url: string, options: RequestInit) => {
+    const token = user?.token;
+    if (token) {
+      options.headers = {
+        ...options.headers,
+        "Authorization": `Bearer ${token}`,
+      };
+    }
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "API request failed");
+    }
+
+    return data;
+  };
+
+  const bookSession = async (data: SessionData) => {
     setIsLoading(true);
     setAuthError(null);
 
     try {
-      const response = await fetch(`https://gym-application2.onrender.com/api/v1/bookings?userId=${user?.id}`, {
-        headers: { Authorization: `Bearer ${user?.token}` },
+      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/bookSession", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to fetch bookings");
-
-      setBookings(data.bookings); // Assuming the response format contains bookings
+      toast.success(responseData.responseMessage || "Session booked successfully!");
     } catch (error: any) {
-      console.error("Fetching bookings error:", error);
-      setAuthError(error.message || "An unexpected error occurred while fetching bookings.");
-      toast.error(error.message || "Failed to fetch bookings.");
+      console.error("Booking error:", error);
+      setAuthError(error.message || "An unexpected error occurred while booking.");
+      toast.error(error.message || "Booking failed.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const editSession = async (data: EditSessionData) => {
+    setIsLoading(true);
+    setAuthError(null);
+
+    try {
+      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/edit", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      toast.success(responseData.responseMessage || "Session updated successfully!");
+    } catch (error: any) {
+      console.error("Editing session error:", error);
+      setAuthError(error.message || "An unexpected error occurred while editing the session.");
+      toast.error(error.message || "Editing session failed.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteSession = async (sessionId: string) => {
+    setIsLoading(true);
+    setAuthError(null);
+
+    try {
+      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId }),
+      });
+
+      toast.success(responseData.responseMessage || "Session deleted successfully!");
+    } catch (error: any) {
+      console.error("Deleting session error:", error);
+      setAuthError(error.message || "An unexpected error occurred while deleting the session.");
+      toast.error(error.message || "Deleting session failed.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const viewSessions = async () => {
+    setIsLoading(true);
+    setAuthError(null);
+
+    try {
+      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/view", {
+        method: "GET",
+      });
+      
+      setBookings(responseData.bookedSessions || []); // Assuming the response contains booked sessions
+    } catch (error: any) {
+      console.error("Fetching sessions error:", error);
+      setAuthError(error.message || "An unexpected error occurred while fetching sessions.");
+      toast.error(error.message || "Failed to fetch sessions.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getAvailableSessions = async (date: string) => {
+    setIsLoading(true);
+    setAuthError(null);
+
+    try {
+      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/available", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date }),
+      });
+
+      setBookings(responseData.availabilityList || []); // Assuming the response contains availability list
+      toast.success(responseData.responseMessage || "Available sessions fetched successfully!");
+    } catch (error: any) {
+      console.error("Fetching available sessions error:", error);
+      setAuthError(error.message || "An unexpected error occurred while fetching available sessions.");
+      toast.error(error.message || "Fetching available sessions failed.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const reportUsage = async (startTime: string) => {
+    setIsLoading(true);
+    setAuthError(null);
+
+    try {
+      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/report", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ startTime }),
+      });
+
+      toast.success(responseData.responseMessage || "Usage reported successfully!");
+    } catch (error: any) {
+      console.error("Reporting usage error:", error);
+      setAuthError(error.message || "An unexpected error occurred while reporting usage.");
+      toast.error(error.message || "Reporting usage failed.");
     } finally {
       setIsLoading(false);
     }
@@ -149,13 +290,13 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, getUserBookings, isLoading, authError, bookings }}>
+    <AuthContext.Provider value={{ user, login, logout, register, bookSession, editSession, deleteSession, viewSessions, getAvailableSessions, reportUsage, isLoading, authError, bookings }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-// Export the custom hook
+
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
