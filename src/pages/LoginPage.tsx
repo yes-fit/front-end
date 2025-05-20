@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/hooks/useAuth"; // Ensure correct import path
-import { Navigate } from "react-router-dom"; // Import Navigate
+import { useAuth } from "@/hooks/useAuth"; 
+import { Navigate } from "react-router-dom"; 
 import { Loader2 } from "lucide-react";
 
 // Login and Register form schemas
@@ -36,7 +36,7 @@ export function LoginPage() {
 
   const onSubmit = async (values: LoginValues | RegisterValues) => {
     if (isRegistering) {
-      const registrationValues = values as RegisterValues; // Type assertion
+      const registrationValues = values as RegisterValues; 
       try {
         await registerUser({
           username: registrationValues.username,
@@ -47,14 +47,14 @@ export function LoginPage() {
           gender: registrationValues.gender,
         });
       } catch (error) {
-        // Handle registration error
+        console.error("Registration error:", error);
       }
     } else {
-      const loginValues = values as LoginValues; // Type assertion
+      const loginValues = values as LoginValues; 
       try {
         await login(loginValues.email, loginValues.password);
       } catch (error) {
-        // Handle login error
+        console.error("Login error:", error);
       }
     }
   };
