@@ -24,7 +24,7 @@ export function Header() {
             <img
               src="/images/Union Bank Nigeria Logo.svg"
               alt="Union Bank Logo"
-              className="h-20" // Adjust height as needed
+              className="h-20" 
             />
             <span className="font-bold">Union Gym</span>
           </Link>
