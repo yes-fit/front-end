@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { format, isAfter, parseISO } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { type BookingSlot, getUserBookings } from "@/lib/api/mockData";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+interface BookingSlot {
+  id: string;
+  startTime: string;
+  endTime: string;
+  availableSpots: number;
+  totalSpots: number;
+}
 
 export function MyBookingsPage() {
   const { user } = useAuth();
@@ -15,50 +22,84 @@ export function MyBookingsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchUserBookings = async () => {
+      if (!user?.token) {
+        toast.error("You must be logged in to view your bookings.");
+        return;
+      }
+
+      try {
+        const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/view", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch bookings");
+        }
+
+        const data = await response.json();
+        setBookings(data.bookedSessions || []);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+        toast.error("Failed to load your bookings.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (user) {
-      // Fetch user bookings
-      const userBookings = getUserBookings(user.id);
-      setBookings(userBookings);
-      setLoading(false);
+      fetchUserBookings();
     }
   }, [user]);
 
-  const handleCancelBooking = (bookingId: string) => {
-    
-    toast.success("Booking cancelled successfully");
+  const handleCancelBooking = async (bookingId: string) => {
+    if (!user?.token) {
+      toast.error("You must be logged in to cancel a booking.");
+      return;
+    }
 
-    // Update local state to reflect the cancellation
-    setBookings(bookings.filter((booking) => booking.id !== bookingId));
+    try {
+      const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/delete", {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sessionId: bookingId }),
+      });
+
+      const result = await response.json();
+      if (result.responseCode === "00") {
+        toast.success("Booking cancelled successfully");
+        setBookings(bookings.filter((booking) => booking.id !== bookingId));
+      } else {
+        toast.error("Failed to cancel booking: " + result.responseMessage);
+      }
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+      toast.error("An error occurred while cancelling the booking.");
+    }
   };
 
   const now = new Date();
 
   // Split bookings into upcoming and past
   const upcomingBookings = bookings.filter((booking) => {
-    const bookingDate = parseISO(`${booking.date}T${booking.hour.toString().padStart(2, "0")}:00:00`);
+    const bookingDate = parseISO(booking.startTime);
     return isAfter(bookingDate, now);
-  }).sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    if (dateA.getTime() !== dateB.getTime()) {
-      return dateA.getTime() - dateB.getTime();
-    }
-    return a.hour - b.hour;
-  });
+  }).sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
 
   const pastBookings = bookings.filter((booking) => {
-    const bookingDate = parseISO(`${booking.date}T${booking.hour.toString().padStart(2, "0")}:00:00`);
+    const bookingDate = parseISO(booking.startTime);
     return !isAfter(bookingDate, now);
-  }).sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    if (dateA.getTime() !== dateB.getTime()) {
-      return dateB.getTime() - dateA.getTime(); // Most recent first
-    }
-    return b.hour - a.hour;
-  });
+  }).sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
 
-  const formatTimeSlot = (hour: number) => {
+  const formatTimeSlot = (time: string) => {
+    const hour = new Date(time).getHours();
     const hourFormatted = hour % 12 || 12;
     const ampm = hour >= 12 ? "PM" : "AM";
     return `${hourFormatted}:00 ${ampm} - ${hourFormatted}:59 ${ampm}`;
@@ -101,7 +142,7 @@ export function MyBookingsPage() {
               </Alert>
             ) : (
               upcomingBookings.map((booking) => {
-                const date = new Date(booking.date);
+                const date = new Date(booking.startTime);
                 return (
                   <Card key={booking.id} className="overflow-hidden">
                     <div className="flex flex-col md:flex-row">
@@ -115,7 +156,7 @@ export function MyBookingsPage() {
                           <div>
                             <h3 className="text-xl font-bold">Gym Session</h3>
                             <p className="text-gray-500">
-                              {formatTimeSlot(booking.hour)}
+                              {formatTimeSlot(booking.startTime)}
                             </p>
                           </div>
                           <div className="mt-4 md:mt-0">
@@ -151,7 +192,7 @@ export function MyBookingsPage() {
               </Alert>
             ) : (
               pastBookings.map((booking) => {
-                const date = new Date(booking.date);
+                const date = new Date(booking.startTime);
                 return (
                   <Card key={booking.id} className="overflow-hidden opacity-80">
                     <div className="flex flex-col md:flex-row">
@@ -165,7 +206,7 @@ export function MyBookingsPage() {
                           <div>
                             <h3 className="text-xl font-bold">Completed Session</h3>
                             <p className="text-gray-500">
-                              {formatTimeSlot(booking.hour)}
+                              {formatTimeSlot(booking.startTime)}
                             </p>
                           </div>
                           <div className="mt-4 md:mt-0">
