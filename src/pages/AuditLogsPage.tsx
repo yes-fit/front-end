@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { getAuditLogs } from "@/lib/api/mockData";
+import { useAuth } from "@/context/AuthContext";
 import { jsPDF } from "jspdf";
 
 type AuditLogData = {
@@ -24,6 +24,7 @@ type LogsResponse = {
 };
 
 export function AuditLogsPage() {
+  const { user } = useAuth();
   const [logs, setLogs] = useState<LogsResponse | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -33,12 +34,25 @@ export function AuditLogsPage() {
     fetchLogs();
   }, [currentPage, filter]);
 
-  const fetchLogs = () => {
+  const fetchLogs = async () => {
     setLoading(true);
     
-    const response = getAuditLogs(currentPage, 20);
-    setLogs(response);
-    setLoading(false);
+    try {
+      const response = await fetch(`https://gym-test-fmui.onrender.com/api/v1/audit-logs?page=${currentPage}&filter=${filter}`, {
+        headers: {
+          "Authorization": `Bearer ${user?.token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch logs");
+
+      const data: LogsResponse = await response.json();
+      setLogs(data);
+    } catch (error) {
+      console.error("Error fetching audit logs:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGenerateReport = () => {
@@ -55,17 +69,16 @@ export function AuditLogsPage() {
     doc.text(`Total logs: ${logs.totalCount}`, 20, 40);
 
     // Log headers
-    const headers = ["Time", "User", "Action", "Details"];
+    const headers = ["Time", "User", "Email", "Action", "Details"];
     let y = 60;
 
     doc.setFontSize(14);
     doc.text("Audit Logs", 20, 50);
 
     doc.setFontSize(10);
-    doc.text(headers[0], 20, y);
-    doc.text(headers[1], 60, y);
-    doc.text(headers[2], 120, y);
-    doc.text(headers[3], 150, y);
+    headers.forEach((header, index) => {
+      doc.text(header, 20 + index * 40, y);
+    });
 
     y += 10;
 
@@ -77,21 +90,21 @@ export function AuditLogsPage() {
         y = 20;
 
         // Add headers to new page
-        doc.text(headers[0], 20, y);
-        doc.text(headers[1], 60, y);
-        doc.text(headers[2], 120, y);
-        doc.text(headers[3], 150, y);
+        headers.forEach((header, index) => {
+          doc.text(header, 20 + index * 40, y);
+        });
 
         y += 10;
       }
 
       doc.text(format(new Date(log.timestamp), "yyyy-MM-dd HH:mm"), 20, y);
       doc.text(log.userName, 60, y);
-      doc.text(log.action.replace("_", " "), 120, y);
+      doc.text(log.userEmail, 100, y);
+      doc.text(log.action.replace("_", " "), 140, y);
 
-      // Trim details to prevent overflow
+      
       const details = log.details.length > 30 ? log.details.substring(0, 27) + "..." : log.details;
-      doc.text(details, 150, y);
+      doc.text(details, 180, y);
 
       y += 7;
     });
