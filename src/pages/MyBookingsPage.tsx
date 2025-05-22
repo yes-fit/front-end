@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { format, isAfter, parseISO } from "date-fns";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -8,12 +8,17 @@ import { Link } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+// Inline API endpoints
+const API_BASE = "https://gym-test-fmui.onrender.com/api/v1";
+const VIEW_BOOKINGS_URL = `${API_BASE}/view`;
+const DELETE_BOOKING_URL = `${API_BASE}/delete`;
+
 interface BookingSlot {
   id: string;
   startTime: string;
   endTime: string;
-  availableSpots: number;
-  totalSpots: number;
+  availableSpots?: number;
+  totalSpots?: number;
 }
 
 export function MyBookingsPage() {
@@ -29,7 +34,7 @@ export function MyBookingsPage() {
       }
 
       try {
-        const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/view", {
+        const response = await fetch(VIEW_BOOKINGS_URL, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${user.token}`,
@@ -37,9 +42,7 @@ export function MyBookingsPage() {
           },
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch bookings");
-        }
+        if (!response.ok) throw new Error("Failed to fetch bookings");
 
         const data = await response.json();
         setBookings(data.bookedSessions || []);
@@ -51,9 +54,7 @@ export function MyBookingsPage() {
       }
     };
 
-    if (user) {
-      fetchUserBookings();
-    }
+    if (user) fetchUserBookings();
   }, [user]);
 
   const handleCancelBooking = async (bookingId: string) => {
@@ -63,7 +64,7 @@ export function MyBookingsPage() {
     }
 
     try {
-      const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/delete", {
+      const response = await fetch(DELETE_BOOKING_URL, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${user.token}`,
@@ -75,7 +76,7 @@ export function MyBookingsPage() {
       const result = await response.json();
       if (result.responseCode === "00") {
         toast.success("Booking cancelled successfully");
-        setBookings(bookings.filter((booking) => booking.id !== bookingId));
+        setBookings(prev => prev.filter((booking) => booking.id !== bookingId));
       } else {
         toast.error("Failed to cancel booking: " + result.responseMessage);
       }
@@ -86,17 +87,11 @@ export function MyBookingsPage() {
   };
 
   const now = new Date();
+  const upcomingBookings = bookings.filter(b => isAfter(parseISO(b.startTime), now))
+    .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
 
-  // Split bookings into upcoming and past
-  const upcomingBookings = bookings.filter((booking) => {
-    const bookingDate = parseISO(booking.startTime);
-    return isAfter(bookingDate, now);
-  }).sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
-
-  const pastBookings = bookings.filter((booking) => {
-    const bookingDate = parseISO(booking.startTime);
-    return !isAfter(bookingDate, now);
-  }).sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
+  const pastBookings = bookings.filter(b => !isAfter(parseISO(b.startTime), now))
+    .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
 
   const formatTimeSlot = (time: string) => {
     const hour = new Date(time).getHours();
@@ -121,12 +116,8 @@ export function MyBookingsPage() {
       ) : (
         <Tabs defaultValue="upcoming" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="upcoming">
-              Upcoming Sessions ({upcomingBookings.length})
-            </TabsTrigger>
-            <TabsTrigger value="past">
-              Past Sessions ({pastBookings.length})
-            </TabsTrigger>
+            <TabsTrigger value="upcoming">Upcoming Sessions ({upcomingBookings.length})</TabsTrigger>
+            <TabsTrigger value="past">Past Sessions ({pastBookings.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upcoming" className="space-y-4">
@@ -135,13 +126,11 @@ export function MyBookingsPage() {
                 <AlertTitle>No upcoming bookings</AlertTitle>
                 <AlertDescription>
                   You don't have any upcoming gym sessions.{" "}
-                  <Link to="/book" className="font-medium text-primary hover:underline">
-                    Book a session
-                  </Link>
+                  <Link to="/book" className="font-medium text-primary hover:underline">Book a session</Link>
                 </AlertDescription>
               </Alert>
             ) : (
-              upcomingBookings.map((booking) => {
+              upcomingBookings.map(booking => {
                 const date = new Date(booking.startTime);
                 return (
                   <Card key={booking.id} className="overflow-hidden">
@@ -155,24 +144,21 @@ export function MyBookingsPage() {
                         <div className="flex flex-col md:flex-row justify-between">
                           <div>
                             <h3 className="text-xl font-bold">Gym Session</h3>
-                            <p className="text-gray-500">
-                              {formatTimeSlot(booking.startTime)}
-                            </p>
+                            <p className="text-gray-500">{formatTimeSlot(booking.startTime)}</p>
                           </div>
                           <div className="mt-4 md:mt-0">
-                            <Button
-                              variant="outline"
-                              onClick={() => handleCancelBooking(booking.id)}
-                            >
+                            <Button variant="outline" onClick={() => handleCancelBooking(booking.id)}>
                               Cancel Booking
                             </Button>
                           </div>
                         </div>
                         <div className="mt-4 text-sm text-muted-foreground">
                           <p>Location: Enterprise Gym, Main Building</p>
-                          <p className="mt-1">
-                            Spots available: {booking.availableSpots}/{booking.totalSpots}
-                          </p>
+                          {typeof booking.availableSpots === "number" && (
+                            <p className="mt-1">
+                              Spots available: {booking.availableSpots}/{booking.totalSpots}
+                            </p>
+                          )}
                         </div>
                       </CardContent>
                     </div>
@@ -191,7 +177,7 @@ export function MyBookingsPage() {
                 </AlertDescription>
               </Alert>
             ) : (
-              pastBookings.map((booking) => {
+              pastBookings.map(booking => {
                 const date = new Date(booking.startTime);
                 return (
                   <Card key={booking.id} className="overflow-hidden opacity-80">
@@ -205,9 +191,7 @@ export function MyBookingsPage() {
                         <div className="flex flex-col md:flex-row justify-between">
                           <div>
                             <h3 className="text-xl font-bold">Completed Session</h3>
-                            <p className="text-gray-500">
-                              {formatTimeSlot(booking.startTime)}
-                            </p>
+                            <p className="text-gray-500">{formatTimeSlot(booking.startTime)}</p>
                           </div>
                           <div className="mt-4 md:mt-0">
                             <span className="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
