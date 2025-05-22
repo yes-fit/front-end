@@ -4,22 +4,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { type BookingSlot, getUserBookings } from "@/lib/api/mockData";
 import {
-  Area,
-  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
-  Cell,
   Legend,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+
+
+interface BookingSlot {
+  id: string;
+  startTime: string; // ISO date format for start time
+  endTime: string;   // ISO date format for end time
+}
 
 // Helper function to get day name
 const getDayName = (dayIndex: number) => {
@@ -42,63 +43,68 @@ export function UserDashboard() {
 
   useEffect(() => {
     if (user) {
-      // Get user bookings
-      const userBookings = getUserBookings(user.id);
-      setBookings(userBookings);
+      const fetchUserBookings = async () => {
+        setLoading(true);
+        try {
+          const response = await fetch(`https://gym-test-fmui.onrender.com/api/v1/view`, {
+            headers: {
+              "Authorization": `Bearer ${user.token}`,
+            },
+          });
 
-      // Calculate statistics
-      const now = new Date();
-      const upcoming = userBookings.filter((booking) => {
-        const bookingDate = parseISO(`${booking.date}T${booking.hour.toString().padStart(2, "0")}:00:00`);
-        return bookingDate > now;
-      });
+          if (!response.ok) throw new Error("Failed to fetch bookings");
 
-      // Count bookings by day of week
-      const bookingsByDay = [0, 0, 0, 0, 0, 0, 0];
-      const bookingsByHour = new Array(24).fill(0);
+          const data = await response.json();
+          const userBookings: BookingSlot[] = data.bookedSessions; 
+          setBookings(userBookings);
 
-      for (const booking of userBookings) {
-        const date = new Date(booking.date);
-        const dayOfWeek = date.getDay();
-        bookingsByDay[dayOfWeek]++;
-        bookingsByHour[booking.hour]++;
-      }
+          // Calculate statistics
+          const now = new Date();
+          const upcoming = userBookings.filter((booking) => {
+            const bookingDate = parseISO(booking.startTime);
+            return bookingDate > now;
+          });
 
-      // Find most frequent day and time
-      let maxDayValue = 0;
-      let maxDayIndex = 0;
-      for (let i = 0; i < bookingsByDay.length; i++) {
-        if (bookingsByDay[i] > maxDayValue) {
-          maxDayValue = bookingsByDay[i];
-          maxDayIndex = i;
+          // Count bookings by day of week
+          const bookingsByDay = [0, 0, 0, 0, 0, 0, 0];
+          const bookingsByHour = new Array(24).fill(0);
+
+          for (const booking of userBookings) {
+            const date = new Date(booking.startTime);
+            const dayOfWeek = date.getDay();
+            bookingsByDay[dayOfWeek]++;
+            bookingsByHour[date.getHours()]++; // Use the hour from the booking's start time
+          }
+
+          // Find most frequent day and time
+          let maxDayValue = Math.max(...bookingsByDay);
+          let mostFrequentDay = getDayName(bookingsByDay.indexOf(maxDayValue));
+
+          let maxHourValue = Math.max(...bookingsByHour);
+          let mostFrequentTime = bookingsByHour.indexOf(maxHourValue);
+
+          const formatHour = (hour: number) => {
+            const h = hour % 12 || 12;
+            const ampm = hour >= 12 ? "PM" : "AM";
+            return `${h}:00 ${ampm}`;
+          };
+
+          setStats({
+            totalBookings: userBookings.length,
+            upcomingBookings: upcoming.length,
+            bookingsByDay,
+            bookingsByHour,
+            mostFrequentDay,
+            mostFrequentTime: formatHour(mostFrequentTime),
+          });
+        } catch (error) {
+          console.error("Error fetching user bookings:", error);
+        } finally {
+          setLoading(false);
         }
-      }
-
-      let maxHourValue = 0;
-      let maxHourIndex = 0;
-      for (let i = 0; i < bookingsByHour.length; i++) {
-        if (bookingsByHour[i] > maxHourValue) {
-          maxHourValue = bookingsByHour[i];
-          maxHourIndex = i;
-        }
-      }
-
-      const formatHour = (hour: number) => {
-        const h = hour % 12 || 12;
-        const ampm = hour >= 12 ? "PM" : "AM";
-        return `${h}:00 ${ampm}`;
       };
 
-      setStats({
-        totalBookings: userBookings.length,
-        upcomingBookings: upcoming.length,
-        bookingsByDay,
-        bookingsByHour,
-        mostFrequentDay: maxDayValue > 0 ? getDayName(maxDayIndex) : "None",
-        mostFrequentTime: maxHourValue > 0 ? formatHour(maxHourIndex) : "None",
-      });
-
-      setLoading(false);
+      fetchUserBookings();
     }
   }, [user]);
 
@@ -111,12 +117,6 @@ export function UserDashboard() {
   const hourChartData = stats.bookingsByHour
     .map((count, hour) => ({ hour, count }))
     .filter((data) => data.hour >= 6 && data.hour <= 22); // Filter to relevant hours (6 AM to 10 PM)
-
-  const formatHourLabel = (hour: number) => {
-    const h = hour % 12 || 12;
-    const ampm = hour >= 12 ? "PM" : "AM";
-    return `${h} ${ampm}`;
-  };
 
   return (
     <div className="container py-6">
@@ -183,17 +183,13 @@ export function UserDashboard() {
           </CardHeader>
           <CardContent className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={hourChartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+              <BarChart data={hourChartData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="hour"
-                  tickFormatter={formatHourLabel}
-                  ticks={[6, 8, 10, 12, 14, 16, 18, 20, 22]}
-                />
+                <XAxis dataKey="hour" />
                 <YAxis />
-                <Tooltip labelFormatter={(hour) => `Time: ${formatHourLabel(Number(hour))}`} />
-                <Area type="monotone" dataKey="count" stroke="#3b82f6" fill="#93c5fd" />
-              </AreaChart>
+                <Tooltip />
+                <Bar dataKey="count" fill="#3b82f6" />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
@@ -212,22 +208,19 @@ export function UserDashboard() {
               <div className="space-y-4">
                 {bookings
                   .filter((booking) => {
-                    const bookingDate = new Date(booking.date);
+                    const bookingDate = new Date(booking.startTime);
                     return bookingDate >= new Date();
                   })
                   .sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-                    if (dateA.getTime() !== dateB.getTime()) {
-                      return dateA.getTime() - dateB.getTime();
-                    }
-                    return a.hour - b.hour;
+                    const dateA = new Date(a.startTime);
+                    const dateB = new Date(b.startTime);
+                    return dateA.getTime() - dateB.getTime();
                   })
                   .slice(0, 5)
                   .map((booking) => {
-                    const date = new Date(booking.date);
-                    const hourFormatted = booking.hour % 12 || 12;
-                    const ampm = booking.hour >= 12 ? "PM" : "AM";
+                    const date = new Date(booking.startTime);
+                    const hourFormatted = new Date(booking.startTime).getHours() % 12 || 12;
+                    const ampm = new Date(booking.startTime).getHours() >= 12 ? "PM" : "AM";
                     return (
                       <div key={booking.id} className="flex justify-between p-3 border rounded">
                         <div>
