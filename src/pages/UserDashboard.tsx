@@ -46,7 +46,7 @@ export function UserDashboard() {
       const fetchUserBookings = async () => {
         setLoading(true);
         try {
-          const response = await fetch(`https://gym-test-fmui.onrender.com/api/v1/view`, {
+          const response = await fetch(`https://gymapp-ho99.onrender.com/api/v1/view`, {
             headers: {
               "Authorization": `Bearer ${user.token}`,
             },

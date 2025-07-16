@@ -81,7 +81,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/login", {
+      const response = await fetch("https://gymapp-ho99.onrender.com/api/v1/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -116,7 +116,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const response = await fetch("https://gym-test-fmui.onrender.com/api/v1/register", {
+      const response = await fetch("https://gymapp-ho99.onrender.com/api/v1/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -161,7 +161,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/bookSession", {
+      const responseData = await apiFetch("https://gymapp-ho99.onrender.com/api/v1/bookSession", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -182,7 +182,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/edit", {
+      const responseData = await apiFetch("https://gymapp-ho99.onrender.com/api/v1/edit", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -203,7 +203,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/delete", {
+      const responseData = await apiFetch("https://gymapp-ho99.onrender.com/api/v1/delete", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId }),
@@ -224,7 +224,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/view", {
+      const responseData = await apiFetch("https://gymapp-ho99.onrender.com/api/v1/view", {
         method: "GET",
       });
       
@@ -243,7 +243,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/available", {
+      const responseData = await apiFetch("https://gymapp-ho99.onrender.com/api/v1/available", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date }),
@@ -265,7 +265,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
     setAuthError(null);
 
     try {
-      const responseData = await apiFetch("https://gym-test-fmui.onrender.com/api/v1/report", {
+      const responseData = await apiFetch("https://gymapp-ho99.onrender.com/api/v1/report", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ startTime }),

@@ -9,7 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Inline API endpoints
-const API_BASE = "https://gym-test-fmui.onrender.com/api/v1";
+const API_BASE = "https://gymapp-ho99.onrender.com/api/v1";
 const VIEW_BOOKINGS_URL = `${API_BASE}/view`;
 const DELETE_BOOKING_URL = `${API_BASE}/delete`;
 

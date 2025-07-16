@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"Basit05\",\r\n    \"fullName\": \"Salami Abdulbasit\",\r\n    \"email\": \"salamiabdulbasit123@gmail.com\",\r\n    \"password\": \"Basit05!!\",\r\n    \"dob\": \"09-09-2005\",\r\n    \"gender\": \"male\"\r\n}",
+							"raw": "{\r\n    \"username\": \"Basit05\",\r\n    \"fullName\": \"Salami Abdulbasit\",\r\n    \"email\": \"salamiabdulbasit123@gmail.com\",\r\n    \"password\": \"Basit05!!\",\r\n    \"dob\": \"09-09-2005\",\r\n    \"gender\": \"Male\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -27,10 +27,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/register",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/register",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -146,10 +146,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/login",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/login",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -255,7 +255,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc0NzczNjgxMCwiZXhwIjoxNzQ3NzM3ODEwfQ.W8UPHEF-vChgD6KEe2ItGvVRMgusWDh7K0ZZAUhXF8M",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc1MDc1Njc0MywiZXhwIjoxNzUwNzU3NzQzfQ.ZxvoEkIIt1gHC6kD8NlYthUfcxTxZnXuR0DSAHfiS8g",
 									"type": "string"
 								}
 							]
@@ -264,7 +264,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"startTime\": \"2025-05-21T15:00:00\"\r\n}",
+							"raw": "{\r\n    \"startTime\": \"2025-06-30T14:00:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -272,10 +272,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/bookSession",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/bookSession",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -384,7 +384,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc0NzczNjgxMCwiZXhwIjoxNzQ3NzM3ODEwfQ.W8UPHEF-vChgD6KEe2ItGvVRMgusWDh7K0ZZAUhXF8M",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc1MDc1Njc0MywiZXhwIjoxNzUwNzU3NzQzfQ.ZxvoEkIIt1gHC6kD8NlYthUfcxTxZnXuR0DSAHfiS8g",
 									"type": "string"
 								}
 							]
@@ -401,10 +401,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/view",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/view",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -547,7 +547,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc0NzczNjgxMCwiZXhwIjoxNzQ3NzM3ODEwfQ.W8UPHEF-vChgD6KEe2ItGvVRMgusWDh7K0ZZAUhXF8M",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc1MDc1Njc0MywiZXhwIjoxNzUwNzU3NzQzfQ.ZxvoEkIIt1gHC6kD8NlYthUfcxTxZnXuR0DSAHfiS8g",
 									"type": "string"
 								}
 							]
@@ -556,7 +556,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sessionId\": \"83eef45d-2284-41f9-9f34-490756b08462\",\r\n    \"newTime\": \"2025-05-30T20:00:00\"\r\n}\r\n",
+							"raw": "{\r\n    \"sessionId\": \"38be35a9-336d-41e4-9372-5a0e28e5f41c\",\r\n    \"newTime\": \"2025-06-29T11:00:00\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -564,10 +564,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/edit",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/edit",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -719,7 +719,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc0NzczNjgxMCwiZXhwIjoxNzQ3NzM3ODEwfQ.W8UPHEF-vChgD6KEe2ItGvVRMgusWDh7K0ZZAUhXF8M",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc1MDc1Njc0MywiZXhwIjoxNzUwNzU3NzQzfQ.ZxvoEkIIt1gHC6kD8NlYthUfcxTxZnXuR0DSAHfiS8g",
 									"type": "string"
 								}
 							]
@@ -728,7 +728,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sessionId\": \"83eef45d-2284-41f9-9f34-490756b08462\"\r\n}",
+							"raw": "{\r\n    \"sessionId\": \"38be35a9-336d-41e4-9372-5a0e28e5f41c\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -736,10 +736,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/delete",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/delete",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -861,7 +861,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "83eef45d-2284-41f9-9f34-490756b08462",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc1MDc1Njc0MywiZXhwIjoxNzUwNzU3NzQzfQ.ZxvoEkIIt1gHC6kD8NlYthUfcxTxZnXuR0DSAHfiS8g",
 									"type": "string"
 								}
 							]
@@ -878,10 +878,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/report",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/report",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -1033,7 +1033,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc0NzczNjgxMCwiZXhwIjoxNzQ3NzM3ODEwfQ.W8UPHEF-vChgD6KEe2ItGvVRMgusWDh7K0ZZAUhXF8M",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc1MDc1Njc0MywiZXhwIjoxNzUwNzU3NzQzfQ.ZxvoEkIIt1gHC6kD8NlYthUfcxTxZnXuR0DSAHfiS8g",
 									"type": "string"
 								}
 							]
@@ -1042,7 +1042,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"date\" : \"2025-05-11\"\r\n}",
+							"raw": "{\r\n    \"date\" : \"2025-05-30\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1050,10 +1050,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://gym-test-fmui.onrender.com/api/v1/available",
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/available",
 							"protocol": "https",
 							"host": [
-								"gym-test-fmui",
+								"gymapp-ho99",
 								"onrender",
 								"com"
 							],
@@ -1189,6 +1189,178 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"responseCode\": \"00\",\n    \"responseMessage\": \"Sessions Generated Successfully\",\n    \"availabilityList\": [\n        {\n            \"hour\": 0,\n            \"available\": true\n        },\n        {\n            \"hour\": 1,\n            \"available\": true\n        },\n        {\n            \"hour\": 2,\n            \"available\": true\n        },\n        {\n            \"hour\": 3,\n            \"available\": true\n        },\n        {\n            \"hour\": 4,\n            \"available\": true\n        },\n        {\n            \"hour\": 5,\n            \"available\": true\n        },\n        {\n            \"hour\": 6,\n            \"available\": true\n        },\n        {\n            \"hour\": 7,\n            \"available\": true\n        },\n        {\n            \"hour\": 8,\n            \"available\": true\n        },\n        {\n            \"hour\": 9,\n            \"available\": true\n        },\n        {\n            \"hour\": 10,\n            \"available\": true\n        },\n        {\n            \"hour\": 11,\n            \"available\": true\n        },\n        {\n            \"hour\": 12,\n            \"available\": true\n        },\n        {\n            \"hour\": 13,\n            \"available\": true\n        },\n        {\n            \"hour\": 14,\n            \"available\": true\n        },\n        {\n            \"hour\": 15,\n            \"available\": true\n        },\n        {\n            \"hour\": 16,\n            \"available\": true\n        },\n        {\n            \"hour\": 17,\n            \"available\": true\n        },\n        {\n            \"hour\": 18,\n            \"available\": true\n        },\n        {\n            \"hour\": 19,\n            \"available\": true\n        },\n        {\n            \"hour\": 20,\n            \"available\": true\n        },\n        {\n            \"hour\": 21,\n            \"available\": true\n        },\n        {\n            \"hour\": 22,\n            \"available\": true\n        },\n        {\n            \"hour\": 23,\n            \"available\": true\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Workout",
+			"item": [
+				{
+					"name": "WorkoutRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYWxhbWlhYmR1bGJhc2l0MTIzQGdtYWlsLmNvbSIsImlhdCI6MTc1MDc1Njc0MywiZXhwIjoxNzUwNzU3NzQzfQ.ZxvoEkIIt1gHC6kD8NlYthUfcxTxZnXuR0DSAHfiS8g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"exerciseName\": \"push-ups\",\r\n    \"targetReps\": 5,\r\n    \"sets\": 30,\r\n    \"workoutDate\": \"2025-07-10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://gymapp-ho99.onrender.com/api/v1/workout",
+							"protocol": "https",
+							"host": [
+								"gymapp-ho99",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"workout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "WorkoutResponse",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n     \"exerciseName\": \"push-ups\",\r\n    \"targetReps\": 5,\r\n    \"sets\": 30,\r\n    \"workoutDate\": \"2025-07-10\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://gymapp-ho99.onrender.com/api/v1/workout",
+									"protocol": "https",
+									"host": [
+										"gymapp-ho99",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"workout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 24 Jun 2025 09:30:25 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "expires",
+									"value": "0"
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "rndr-id",
+									"value": "1203cfad-9f69-426e"
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=31536000 ; includeSubDomains"
+								},
+								{
+									"key": "vary",
+									"value": "Origin"
+								},
+								{
+									"key": "vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff"
+								},
+								{
+									"key": "x-frame-options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "0"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "954b34c0fbec94a9-LHR"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"responseCode\": \"00\",\n    \"responseMessage\": \"Workout created Successfully\"\n}"
 						}
 					]
 				}

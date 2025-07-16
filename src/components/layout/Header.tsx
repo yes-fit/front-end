@@ -20,13 +20,12 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center">
             <img
               src="/images/Union Bank Nigeria Logo.svg"
               alt="Union Bank Logo"
               className="h-20" 
             />
-            <span className="font-bold">Union Gym</span>
           </Link>
 
           {user && (
@@ -86,11 +85,7 @@ export function Header() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <Button asChild variant="default">
-              <Link to="/login">Login</Link>
-            </Button>
-          )}
+          ) : null}
         </div>
       </div>
     </header>

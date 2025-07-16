@@ -25,7 +25,7 @@ export type BookingSlot = {
 
 // Fetch available slots from the API
 export const fetchAvailableSlots = async (date: string, token: string): Promise<BookingSlot[]> => {
-  const url = "https://gym-test-fmui.onrender.com/api/v1/available"; 
+  const url = "https://gymapp-ho99.onrender.com/api/v1/available"; 
   console.log(`Fetching available slots for date: ${date}`); 
   const response = await fetch(url, {
     method: "POST",
@@ -62,7 +62,7 @@ export const fetchAvailableSlots = async (date: string, token: string): Promise<
 
 // Book a slot using the API
 export const bookSlot = async (startTime: string, token: string): Promise<{ success: boolean; message: string }> => {
-  const url = "https://gym-test-fmui.onrender.com/api/v1/bookSession"; 
+  const url = "https://gymapp-ho99.onrender.com/api/v1/bookSession"; 
   console.log(`Booking slot at: ${startTime}`); 
   const response = await fetch(url, {
     method: "POST",

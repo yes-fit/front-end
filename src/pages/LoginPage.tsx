@@ -65,15 +65,15 @@ export function LoginPage() {
   }
 
   return (
-    <div>
-      <h2>{isRegistering ? "Register" : "Login"}</h2>
-      <form onSubmit={formMethods.handleSubmit(onSubmit)} className="flex flex-col space-y-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-blue-800 p-6">
+      <h2 className="text-3xl font-bold text-white mb-6">{isRegistering ? "Register" : "Login"}</h2>
+      <form onSubmit={formMethods.handleSubmit(onSubmit)} className="w-full max-w-md flex flex-col space-y-4 bg-white p-6 rounded-lg shadow-md">
         {isRegistering && (
           <>
             <Input {...formMethods.register("username")} placeholder="Username" />
             <Input {...formMethods.register("fullName")} placeholder="Full Name" />
             <Input {...formMethods.register("dob")} type="date" placeholder="Date of Birth" />
-            <select {...formMethods.register("gender")}>
+            <select {...formMethods.register("gender")} className="p-2 border border-gray-300 rounded">
               <option value="" disabled>Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -84,11 +84,11 @@ export function LoginPage() {
         <Input {...formMethods.register("email")} placeholder="Email" />
         <Input {...formMethods.register("password")} type="password" placeholder="Password" />
         {authError && <p className="text-red-500">{authError}</p>}
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} className="bg-blue-600 text-white hover:bg-blue-700 transition">
           {isLoading ? <Loader2 className="animate-spin" /> : isRegistering ? "Register" : "Sign In"}
         </Button>
       </form>
-      <button onClick={() => setIsRegistering(!isRegistering)} className="mt-4">
+      <button onClick={() => setIsRegistering(!isRegistering)} className="mt-4 text-white hover:underline">
         {isRegistering ? "Already have an account? Login" : "Don't have an account? Register"}
       </button>
     </div>
